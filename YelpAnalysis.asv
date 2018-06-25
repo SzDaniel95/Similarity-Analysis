@@ -5,6 +5,10 @@ function [ G ] = YelpAnalysis()
     ds = datastore('D:/yelp_review_reduced.csv');
     %1 sort olvasunk be egyszerre
     ds.ReadSize=1;
+    %TODO lassú, külön kell szedni a csúcsokat
+    %Beolvasás a memóriába
+    %T = readall(ds);
+    %tablesize = size(T);
     G=graph();
     %Init node - otherwise: Error Graph does not contain node names.
     T=read(ds);
