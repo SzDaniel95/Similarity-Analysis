@@ -23,7 +23,5 @@ function [ G ] = YelpUserGraph()
         end
     end
     save('yelp_user_graph.mat','G')
-
-
 end
 
