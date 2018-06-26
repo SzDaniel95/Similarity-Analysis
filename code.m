@@ -2,6 +2,8 @@
 ds = datastore('D:/yelp_review_reduced.csv');
 %Beolvasás a memóriába
 T = readall(ds);% Méret: 5261668x4
+ds = datastore('D:/yelp_user_reduced.csv');
+T=readall(ds);% Méret: 1326100
 %Elérés
 T.business_id(3)
 %Változó törlése a memóriából
