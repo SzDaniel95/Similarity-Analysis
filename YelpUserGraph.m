@@ -2,18 +2,21 @@ function [ G ] = YelpUserGraph()
 
     %YelpUserGraph
     %Datastore beolvasás
-    ds = datastore('D:/yelp_user_reduced.csv');
+    ds = datastore('D:/yelp_user_reduced_waiblingen.csv');
     %1 sort olvasunk be egyszerre
     ds.ReadSize=1;
-    G=graph();
-    %Add nodes and edges, 154/min -> Nagy számítási igény!!!
+    G=digraph();
+    %Add nodes and edges
+    %Az adatsor None friends es cellával kell hogy hezdõdjön
+    %T = read(ds);
+    %G = addnode(G,T.user_id);
     while hasdata(ds)
         T = read(ds);
         if string(T.friends)=='None'
            %Ha nincsennek baratai csak létrehozzuk a csúcsot
-           if findnode(G,T.user_id)==0
-            G = addnode(G,T.user_id);
-           end
+           %if findnode(G,T.user_id)==0
+            %G = addnode(G,T.user_id);
+           %end
         else
            %Ha vannak baratai akkor léthezunk éleket
            C = strsplit(string(T.friends),{', '});
@@ -22,6 +25,6 @@ function [ G ] = YelpUserGraph()
            end
         end
     end
-    save('yelp_user_graph.mat','G')
+    %save('yelp_user_graph.mat','G')
 end
 
