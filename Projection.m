@@ -52,7 +52,9 @@ function [ result ] = Projection( NxM_matrix, type )
             for i=1:length(NxM_matrix)
                 %oszlop
                 for j=1:length(NxM_matrix)
-                    result(i,j)=Similarity(NxM_matrix,i,j);
+                    if(i~=j)
+                        result(i,j)=Similarity(NxM_matrix,i,j);
+                    end
                 end
             end
 
@@ -73,9 +75,10 @@ function [ result ] = Jaccard( input )
         Ki=degree(g,i);
         %oszlop
         for j=1:length(input)
-            Kj=degree(g,j);
-            result(i,j)=Similarity(input,i,j)/(Ki+Kj);
-           
+            if(i~=j)
+                Kj=degree(g,j);
+                result(i,j)=Similarity(input,i,j)/(Ki+Kj);
+            end
        end
         
     end
@@ -95,9 +98,10 @@ function [ result ] = MDW( input )
         Ki=degree(g,i);
         %oszlop
         for j=1:length(input)
-            Kj=degree(g,j);
-            result(i,j)=MDW_SUM(input,i,j)/max([Ki Kj]);
-           
+            if(i~=j)
+                Kj=degree(g,j);
+                result(i,j)=MDW_SUM(input,i,j)/max([Ki Kj]);
+            end
        end
         
     end
@@ -138,9 +142,10 @@ function [ result ] = CollaborativeFiltering( input )
         Ki=degree(g,i);
         %oszlop
         for j=1:length(input)
-            Kj=degree(g,j);
-            result(i,j)=Similarity(input,i,j)/min([Ki Kj]);
-           
+            if(i~=j)
+                Kj=degree(g,j);
+                result(i,j)=Similarity(input,i,j)/min([Ki Kj]);
+            end
        end
         
     end
@@ -223,11 +228,11 @@ function [ result ] = BinaryPearson( input )
         Ki=degree(g,i);
         %oszlop
         for j=1:length(input)
-            Kj=degree(g,j);
-            
-            result(i,j)=(Similarity(input,i,j)-Ki*Kj/M);
-            result(i,j)= result(i,j) / (sqrt(Ki*(1-Ki/M)*Kj*(1-Kj/M)));
-            
+            if(i~=j)
+                Kj=degree(g,j);
+                result(i,j)=(Similarity(input,i,j)-Ki*Kj/M);
+                result(i,j)= result(i,j) / (sqrt(Ki*(1-Ki/M)*Kj*(1-Kj/M)));
+            end
        end
         
     end
