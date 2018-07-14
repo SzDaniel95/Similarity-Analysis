@@ -7,9 +7,15 @@ function [ result ] = Projection( NxM_matrix, type )
         case 'Jaccard'
             %tesztelve
             result = Jaccard(NxM_matrix);
+            if(issymmetric(result)==0)
+                result=round(result);
+            end
         case 'CF'
             %tesztelve
             result = CollaborativeFiltering(NxM_matrix);
+            if(issymmetric(result)==0)
+                result=round(result);
+            end
         case 'NBI'
             %NBI - Objektumra
             %Tesztelve
@@ -40,10 +46,16 @@ function [ result ] = Projection( NxM_matrix, type )
         case 'MDW'
             %Tesztelve
             result = MDW(NxM_matrix);
+            if(issymmetric(result)==0)
+                result=round(result);
+            end
         case 'BP'
             %Tesztelve
             %Nullával való osztás lép fel és ezért NaN kerül be
             result = BinaryPearson(NxM_matrix);
+            if(issymmetric(result)==0)
+                result=round(result);
+            end
         case 'Counting'
             %Similarity
             %Counting the number of objects n_i,j
@@ -56,6 +68,9 @@ function [ result ] = Projection( NxM_matrix, type )
                         result(i,j)=Similarity(NxM_matrix,i,j);
                     end
                 end
+            end
+            if(issymmetric(result)==0)
+                result=round(result);
             end
 
     end
@@ -228,8 +243,8 @@ function [ result ] = BinaryPearson( input )
         Ki=degree(g,i);
         %oszlop
         for j=1:length(input)
-            if(i~=j)
-                Kj=degree(g,j);
+            Kj=degree(g,j);
+            if(i~=j && M~=0 && (sqrt(Ki*(1-Ki/M)*Kj*(1-Kj/M)))~=0)
                 result(i,j)=(Similarity(input,i,j)-Ki*Kj/M);
                 result(i,j)= result(i,j) / (sqrt(Ki*(1-Ki/M)*Kj*(1-Kj/M)));
             end
