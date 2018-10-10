@@ -2,7 +2,7 @@ function [ result, n_names, m_names ] = YelpReviewGraph()
 
     %YelpReviewGraph
     %Datastore beolvasás
-    ds = datastore('D:/yelp_review_reduced_stuttgart.csv');
+    ds = datastore('D:/yelp_review_reduced_waiblingen.csv');
     T = readall(ds);
     T_size=height(T);
     % Users

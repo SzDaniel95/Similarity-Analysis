@@ -2,10 +2,11 @@ function [ G ] = YelpUserGraph()
 
     %YelpUserGraph
     %Datastore beolvasás
-    ds = datastore('D:/yelp_user_reduced_waiblingen.csv');
+    ds = datastore('D:/yelp_user_reduced_stuttgart.csv');
+    %ds = datastore('C:/Users/User/Desktop/userStutgart.csv');
     %1 sort olvasunk be egyszerre
     ds.ReadSize=1;
-    G=digraph();
+    G=digraph(); 
     %Add nodes and edges
     %Az adatsor None friends es cellával kell hogy hezdõdjön
     %T = read(ds);
@@ -20,6 +21,7 @@ function [ G ] = YelpUserGraph()
         else
            %Ha vannak baratai akkor léthezunk éleket
            C = strsplit(string(T.friends),{', '});
+           
            for i=1:length(C)
                G=addedge(G,T.user_id,cellstr(C(i)));
            end

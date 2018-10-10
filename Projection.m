@@ -84,7 +84,7 @@ function [ result ] = Jaccard( input )
 
     result = zeros(length(input));
     %Konvetálás graph objektummá
-    g=ConvertToGraph(input);
+    g=Convert2Graph(input);
     %sor
     for i=1:length(input)
         Ki=degree(g,i);
@@ -107,7 +107,7 @@ function [ result ] = MDW( input )
     
     result = zeros(size(input));
     %Konvetálás graph objektummá
-    g=ConvertToGraph(input);
+    g=Convert2Graph(input);
     %sor
     for i=1:length(input)
         Ki=degree(g,i);
@@ -151,7 +151,7 @@ function [ result ] = CollaborativeFiltering( input )
     
     result = zeros(length(input));
     %Konvetálás graph objektummá
-    g=ConvertToGraph(input);
+    g=Convert2Graph(input);
     %sor
     for i=1:length(input)
         Ki=degree(g,i);
@@ -237,7 +237,7 @@ function [ result ] = BinaryPearson( input )
     M=size(input);
     M=M(2);
     %Konvetálás graph objektummá
-    g=ConvertToGraph(input);
+    g=Convert2Graph(input);
     %sor
     for i=1:length(input)
         Ki=degree(g,i);
