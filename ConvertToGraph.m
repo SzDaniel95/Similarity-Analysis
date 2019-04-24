@@ -3,14 +3,17 @@ function [ result ] = ConvertToGraph( NxM_matrix, n_NodeNames, m_NodeNames)
     
     adjMatrix = [zeros(sizeMatrix(1),sizeMatrix(1)), NxM_matrix;
          NxM_matrix', zeros(sizeMatrix(2),sizeMatrix(2))]; 
-    result=graph(adjMatrix,[n_NodeNames; m_NodeNames]);
-    
+    %result=graph(adjMatrix);
+     result=graph(adjMatrix,[n_NodeNames; m_NodeNames]);
+    %{
     % Plot
     LWidths = 5*result.Edges.Weight/max(result.Edges.Weight);
     h=plot(result,'EdgeLabel',result.Edges.Weight,'LineWidth',LWidths);
-    
-    
-    h = plot(result,'Layout','circle');
+    colormap hsv
+    deg = degree(result);
+    nSizes = 2*(deg-min(deg)+0.2);
+    nColors = deg;
+    h = plot(result,'Layout','circle','LineWidth',result.Edges.Weight,'MarkerSize',nSizes,'NodeCData',nColors,'EdgeColor','m');
     % Make it pretty
     h.XData(1:sizeMatrix(1)) = 1;
     h.XData((sizeMatrix(1)+1):end) = 2;
@@ -21,4 +24,5 @@ function [ result ] = ConvertToGraph( NxM_matrix, n_NodeNames, m_NodeNames)
         nodes=vertcat(n_NodeNames,m_NodeNames);
         labelnode(h,[1:length(result.adjacency)],nodes);
     end
+    %}
 end
