@@ -29,3 +29,7 @@ spy(full(G.adjacency))%Ritka minta ábrázolása
 %Adat mentés/beolvasás
 save('test.mat','G')
 load('test.mat')
+
+%Közösség
+a=community_louvain(full(Gcf.adjacency));
+b=[n_names,num2cell(a)];
