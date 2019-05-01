@@ -2,37 +2,39 @@ function [ G ] = YelpUserGraph2()
 
     %YelpUserGraph
     %Datastore beolvasás
-    ds = datastore('D:/yelp_userfriendWaibSzurt.csv');
-    A = ['%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q';'%q'];
-    str = string(A);
-    str=str';
-    C = cellstr(str);
-    ds.TextscanFormats=C;
-    %1 sort olvasunk be egyszerre
-    ds.ReadSize=1;
-    G=digraph();
-    %Add nodes and edges
-    %Az adatsor None friends es cellával kell hogy hezdõdjön
-    %T = read(ds);
-    %G = addnode(G,T.user_id);
-    while hasdata(ds)
-        T = read(ds);
-        if string(T.Var5)=='None'
-           %Ha nincsennek baratai csak létrehozzuk a csúcsot
-           %if findnode(G,T.user_id)==0
-            %G = addnode(G,T.user_id);
-           %end
-           G = addnode(G,T.Var2);
-        else
-           %Ha vannak baratai akkor léthezunk éleket
-           for i=5:45
-               currentVar = sprintf('Var%d',i);
-               temp = T.(currentVar);
-               if(~ismissing(temp))
-                G=addedge(G,T.Var2,temp);
-               end
-           end
+    ds = datastore('D:/yelp_user_BW.csv');
+    %A bemeneten elõre legyenek kiszedve a NONE-ok !!!
+    table = ds.readall;
+    user=string(table.user_id);
+    contains(user,'HVEkhgvEwFt5oDaW9Fm3qw');
+    result={};
+    ds2 = datastore('C:/Users/User/Desktop/n_names.csv');
+    data=ds2.readall;
+    data=data.n_names;
+    
+    G = digraph();
+    G=addnode(G,data);
+    for i=1:height(table)
+
+        C = strsplit(string(table.friends(i)),{', '});
+
+        for iz=1:length(C)
+            %if (sum(contains(user,C(iz))) > 0)
+                if (findnode(G,char(C(iz))) > 0)
+                    %result=[result; cellstr(table.user_id(i)), cellstr(C(iz)) ];
+                    G=addedge(G,cellstr(table.user_id(i)),cellstr(C(iz)));
+                end
+            %end
+
         end
     end
+    %G = digraph();
+
+    %for i=1:length(result)
+       % G=addedge(G,cellstr(result(i,1)),cellstr(result(i,2)));
+    %end
+    plot(G)
+    G=graph(GetSymmetric(full(G.adjacency)));
     %save('yelp_user_graph.mat','G')
-end
+    end
+
