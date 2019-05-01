@@ -1,6 +1,6 @@
 function [ result ] = Projection( NxM_matrix, type )
     %Method for similarity
-
+    tic
     type = validatestring(type, {'Jaccard', 'CF', 'NBI', 'HeatS', 'MDW', 'BP', 'Counting'});
 
     switch type
@@ -74,7 +74,7 @@ function [ result ] = Projection( NxM_matrix, type )
             end
 
     end
-
+    toc
 end
 
 
